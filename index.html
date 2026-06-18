@@ -313,7 +313,7 @@
       width: 100%;
       height: 108%;
       object-fit: cover;
-      object-position: 56% 50%;
+      object-position: 50% 22%;
       transform-origin: center center;
       transform: translate3d(0,0,0);
       will-change: transform;
@@ -408,16 +408,31 @@
       opacity: 0;
     }
 
+    .hero-phrase {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--gold-light);
+      opacity: 0;
+      transform: translateY(14px);
+      margin: 18px auto 0;
+      padding: 0 24px;
+      max-width: 320px;
+      text-shadow: 0 1px 12px rgba(46,26,29,.45);
+    }
+
     .hero-date {
       font-family: var(--serif);
-      font-size: 14px;
-      font-weight: 300;
-      letter-spacing: 7px;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 5px;
       text-transform: uppercase;
       color: var(--gold-light);
       opacity: 0;
       transform: translateY(14px);
-      margin-top: 18px;
+      margin-top: 22px;
     }
 
     .hero-city {
@@ -779,20 +794,62 @@
       flex: 1;
     }
     .dc-fig svg {
-      width: 78px;
+      width: 96px;
       height: auto;
       display: block;
+      filter: drop-shadow(0 4px 10px rgba(110,79,168,.18));
     }
-    .dc-fig svg .dc-body { fill: var(--accent); }
-    .dc-fig svg .dc-head { fill: var(--accent); }
-    .dc-fig svg .dc-detail { fill: var(--gold-light); }
-    .dc-fig svg .dc-line { fill: none; stroke: var(--bg); stroke-width: 1.4; stroke-linecap: round; }
     .dc-fig-label {
       font-family: var(--serif);
-      font-size: 15px;
+      font-size: 16px;
       font-style: italic;
       letter-spacing: 1px;
       color: var(--accent);
+    }
+    .dc-fig-sub {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(46,26,29,.55);
+      margin-top: -8px;
+    }
+
+    .dc-avoid-block {
+      margin-top: 8px;
+    }
+    .dc-swatches {
+      display: inline-flex;
+      gap: 14px;
+      justify-content: center;
+      margin: 14px auto 0;
+    }
+    .dc-swatch {
+      width: 92px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(46,26,29,.12), inset 0 0 0 1px rgba(255,255,255,.18);
+      position: relative;
+    }
+    .dc-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      border: 1.5px dashed rgba(46,26,29,.4);
+      pointer-events: none;
+    }
+    .dc-swatch-lbl {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(46,26,29,.78);
     }
     .dc-sep-line {
       width: 1px;
@@ -857,20 +914,16 @@
     }
 
     /* ══════════════════════════════════════════════════════
-       GALLERY — 3D WHEEL (drag para girar)
+       GALLERY — GRID AMPLIABLE CON LIGHTBOX
     ══════════════════════════════════════════════════════ */
     #galeria {
-      padding: 72px 28px 80px;
+      padding: 72px 22px 80px;
       background: linear-gradient(180deg, var(--bg) 0%, var(--crema) 100%);
       text-align: center;
       overflow: visible;
     }
-
     #galeria .label,
-    #galeria .title,
-    #galeria .subtitle {
-      padding: 0 24px;
-    }
+    #galeria .title { padding: 0 20px; }
 
     .gal-header-ornament {
       width: 120px;
@@ -879,60 +932,117 @@
       margin: 0 auto 20px;
     }
 
-    .wheel-scene {
-      position: relative;
-      width: 100%;
-      height: 520px;
-      margin: 40px auto 0;
-      perspective: 1400px;
-      transform-style: preserve-3d;
-      overflow: visible;
-    }
-
-    .wheel-ring {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      cursor: grab;
-    }
-
-    .wheel-ring.dragging { cursor: grabbing; }
-
-    .wheel-card {
-      position: absolute;
-      width: 200px;
-      height: 280px;
-      left: 50%;
-      top: 50%;
-      margin-left: -100px;
-      margin-top: -140px;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 2px solid rgba(172,150,227,.30);
-      box-shadow: 0 12px 40px rgba(110,79,168,.22);
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .wheel-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      pointer-events: none;
-    }
-
     .gal-hint {
       font-family: var(--serif);
       font-style: italic;
       font-size: 14px;
       font-weight: 500;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: var(--accent);
-      margin-top: 24px;
       opacity: .8;
+    }
+
+    .gal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    @media (min-width: 480px) {
+      .gal-grid { gap: 12px; }
+    }
+
+    .gal-cell {
+      padding: 0;
+      border: none;
+      background: transparent;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 1 / 1;
+      box-shadow: 0 6px 18px rgba(110,79,168,.15);
+      position: relative;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .gal-cell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(110,79,168,.25);
+    }
+    .gal-cell:active { transform: scale(.97); }
+    .gal-cell::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 70%, rgba(110,79,168,.18) 100%);
+      pointer-events: none;
+    }
+    .gal-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+      background: rgba(20,8,20,.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .3s ease;
+      padding: 24px;
+    }
+    .lightbox.open {
+      opacity: 1;
+    }
+    .lb-img {
+      max-width: 92vw;
+      max-height: 80vh;
+      width: auto;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .lb-close,
+    .lb-arrow {
+      position: absolute;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      transition: background .2s ease, transform .2s ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .lb-close:hover,
+    .lb-arrow:hover { background: rgba(255,255,255,.22); }
+    .lb-close:active,
+    .lb-arrow:active { transform: scale(.92); }
+    .lb-close { top: 18px; right: 18px; }
+    .lb-arrow svg { width: 24px; height: 24px; }
+    .lb-close svg { width: 22px; height: 22px; }
+    .lb-prev { left: 14px; top: 50%; transform: translateY(-50%); }
+    .lb-next { right: 14px; top: 50%; transform: translateY(-50%); }
+    .lb-prev:active { transform: translateY(-50%) scale(.92); }
+    .lb-next:active { transform: translateY(-50%) scale(.92); }
+    @media (max-width: 480px) {
+      .lb-close { top: 14px; right: 14px; width: 44px; height: 44px; }
+      .lb-prev, .lb-next { width: 44px; height: 44px; }
     }
 
     /* ── RSVP ────────────────────────────────────────── */
@@ -1013,7 +1123,63 @@
     .btn-wa:active { opacity: .9; transform: scale(.97); }
     .btn-wa svg { width: 20px; height: 20px; flex-shrink: 0; }
 
+    /* ── EPÍLOGO ─────────────────────────────────── */
+    #epilogo {
+      background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+      text-align: center;
+      padding: 72px 22px 84px;
+      position: relative;
+    }
+    .epilogo-msg {
+      max-width: 380px;
+      margin: 38px auto 0;
+      padding: 32px 28px 28px;
+      text-align: center;
+      background: linear-gradient(150deg, rgba(255,250,252,.96), rgba(245,228,236,.92));
+      border: 1px solid rgba(172,150,227,.28);
+      border-radius: var(--r-lg);
+      box-shadow:
+        0 1px 2px rgba(92,30,40,.05),
+        0 12px 30px -14px rgba(110,79,168,.26);
+    }
+    .epilogo-msg svg {
+      width: 34px;
+      height: 32px;
+      color: var(--accent);
+      opacity: .9;
+      margin: 0 auto 16px;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(160,39,101,.28));
+      animation: env-glow-pulse 3.6s ease-in-out infinite;
+    }
+    .epilogo-text {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .epilogo-text span {
+      display: block;
+      font-family: var(--script);
+      font-style: normal;
+      font-size: 28px;
+      color: var(--accent);
+      margin-top: 8px;
+    }
+
     /* ── FOOTER ──────────────────────────────────────── */
+    .ft-heart {
+      width: 32px;
+      height: 30px;
+      color: var(--gold);
+      display: inline-block;
+      vertical-align: -.18em;
+      margin: 0 6px;
+      filter: drop-shadow(0 0 12px rgba(172,150,227,.4));
+      animation: env-glow-pulse 2.4s ease-in-out infinite;
+    }
     footer {
       background: linear-gradient(180deg, #1A0D10, var(--text));
       color: var(--bg);
@@ -1403,12 +1569,13 @@
       margin: 0 auto;
     }
     .promesa-cross {
-      width: 30px;
-      height: 42px;
+      width: 38px;
+      height: 36px;
       margin: 0 auto 22px;
       color: var(--accent);
-      opacity: .85;
+      opacity: .9;
       display: block;
+      filter: drop-shadow(0 2px 8px rgba(160,39,101,.25));
     }
     .promesa-phrase {
       font-family: var(--serif);
@@ -2510,6 +2677,113 @@
       top: 1px;
     }
 
+    /* ── FOTO DECORATIVA (sentados, familia, bailando) ── */
+    .fam-photo {
+      width: 100%;
+      max-width: 430px;
+      margin: 8px auto 0;
+      padding: 12px;
+      background: linear-gradient(145deg, rgba(255,248,248,.95), rgba(245,228,224,.92));
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(172,150,227,.22);
+      box-shadow:
+        0 1px 2px rgba(92,30,40,.06),
+        0 10px 30px -10px rgba(110,79,168,.22),
+        0 30px 70px -40px rgba(110,79,168,.35);
+    }
+    .fam-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    /* ── VERSÍCULO DE BENDICIÓN ── */
+    .fam-verse {
+      max-width: 380px;
+      margin: 44px auto 0;
+      padding: 32px 28px 28px;
+      text-align: center;
+      background: linear-gradient(150deg, rgba(255,250,252,.96), rgba(245,228,236,.92));
+      border: 1px solid rgba(172,150,227,.28);
+      border-radius: var(--r-lg);
+      box-shadow:
+        0 1px 2px rgba(92,30,40,.05),
+        0 12px 30px -14px rgba(110,79,168,.26);
+    }
+    .fam-verse svg {
+      width: 32px;
+      height: 30px;
+      color: var(--accent);
+      opacity: .85;
+      margin: 0 auto 14px;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(160,39,101,.22));
+    }
+    .fam-verse-text {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--text);
+      margin: 0 0 14px;
+    }
+    .fam-verse-cite {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .fam-verse-cite::before {
+      content: '';
+      display: block;
+      width: 38px;
+      height: 1px;
+      margin: 0 auto 12px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ── HIJOS ── */
+    #hijos { text-align: center; }
+    .hijos-list {
+      max-width: 380px;
+      margin: 38px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .hijo-card {
+      background: linear-gradient(145deg, rgba(255,248,248,.95), rgba(245,228,224,.85));
+      border: 1px solid rgba(172,150,227,.22);
+      border-radius: 16px;
+      padding: 22px 14px;
+      box-shadow:
+        0 4px 14px rgba(46,26,29,.05),
+        0 14px 34px -16px rgba(110,79,168,.18);
+      position: relative;
+    }
+    .hijo-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .hijo-name {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text);
+      line-height: 1.4;
+      display: block;
+    }
+
     /* Separador con rosa entre grupos */
     .fam-group-v2 + .fam-group-v2::before {
       content: '';
@@ -2788,7 +3062,7 @@
   </button>
 
   <!-- Ed Sheeran - Perfect -->
-  <audio id="bg-audio" loop preload="none" aria-hidden="true">
+  <audio id="bg-audio" loop autoplay preload="auto" aria-hidden="true">
     <source src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/audio/boda-fabiola-y-fernando/cancion.mp3" type="audio/mpeg" />
   </audio>
 
@@ -2815,7 +3089,8 @@
           <span class="hero-line" data-name="Fernando"></span>
         </h1>
         <div class="hero-ornament-bottom" id="hero-orn-bottom" aria-hidden="true"></div>
-        <p class="hero-date"  id="hero-date">03 · Julio · 2026</p>
+        <p class="hero-phrase" id="hero-phrase">El uno para el otro<br/>y los dos para Dios</p>
+        <p class="hero-date"  id="hero-date">Viernes 03 · Julio · 2026</p>
         <p class="hero-city"  id="hero-city">Villahermosa, Tabasco</p>
       </div>
 
@@ -2832,9 +3107,8 @@
       <svg class="rose-watermark sm" style="top:22%;right:14%;transform:rotate(-24deg)" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
 
       <div class="promesa-inner">
-        <svg class="promesa-cross fu" viewBox="0 0 30 42" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
-          <path d="M15 3 L15 39"/>
-          <path d="M4 14 L26 14"/>
+        <svg class="promesa-cross fu" viewBox="0 0 32 30" fill="currentColor" aria-hidden="true">
+          <path d="M16 7 C19 1 30 1 30 10 C30 19 16 28 16 28 C16 28 2 19 2 10 C2 1 13 1 16 7 Z"/>
         </svg>
 
         <p class="promesa-phrase fu">Sean sus vidas tan unidas en amor que lleguen a ser como una sola alma <span class="pp-amp">&</span> así nada en el mundo podrá separarlos</p>
@@ -2861,7 +3135,7 @@
       <svg class="rose-watermark sm" style="bottom:10%;right:-18px;transform:rotate(28deg)" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
       <p class="label fu">Faltan</p>
       <h2 class="title fu">Nuestro gran día</h2>
-      <p class="subtitle fu">El tiempo vuela cuando esperas algo hermoso</p>
+      <p class="subtitle fu">La mejor historia de amor está a punto de comenzar</p>
 
       <div class="cd-frame fu" role="timer" aria-live="polite" aria-label="Tiempo restante para la boda">
         <!-- Rosa flotante en el tope -->
@@ -2992,19 +3266,19 @@
             </svg>
             <div class="line"></div>
           </div>
-          <p class="loc-venue fu">Salón de Eventos</p>
+          <p class="loc-venue fu">Salón Nuvó</p>
           <p class="loc-addr-v2 fu">Cerrada Retorno 1, frente al Conalep 051 y Fracc. Insurgentes · Col. Olmeca · 86019 Villahermosa, Tab.</p>
           <div class="loc-hour-big fu">7:00 PM</div>
           <p class="loc-hour-lbl fu">de la tarde</p>
           <div class="loc-map fu">
             <iframe
-              src="https://maps.google.com/maps?q=Conalep%2051%20Villahermosa%20Tabasco&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=Nuv%C3%B3+Vhsa+Sal%C3%B3n+de+Eventos+Villahermosa+Tabasco&t=&z=17&ie=UTF8&iwloc=&output=embed"
               loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-              title="Mapa de la recepción · Villahermosa"></iframe>
+              title="Mapa de Salón Nuvó · Villahermosa"></iframe>
           </div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Cerrada+Retorno+1+frente+al+Conalep+051+Olmeca+Villahermosa+Tabasco"
+          <a href="https://maps.app.goo.gl/6EJUF1K7d4WnvmMB8"
              target="_blank" rel="noopener noreferrer"
-             class="btn-maps fu" aria-label="Ver ubicación de la recepción en Google Maps">
+             class="btn-maps fu" aria-label="Ver ubicación del Salón Nuvó en Google Maps">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
               <circle cx="12" cy="9" r="2.5"/>
@@ -3013,29 +3287,6 @@
           </a>
         </article>
       </div>
-    </section>
-
-    <!-- ── 4. GOOGLE CALENDAR ──────────────────────── -->
-    <section id="calendar" aria-label="Agregar al calendario">
-      <p class="label fu">No lo olvides</p>
-      <h2 class="title fu">Agéndalo ya</h2>
-      <p class="subtitle fu">Guarda esta fecha especial en tu calendario</p>
-      <a
-        href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Fabiola+%26+Fernando&dates=20260704T000000%2F20260704T060000&details=Boda+Civil+y+Recepci%C3%B3n+(7%3A00+PM)+en+Villahermosa%2C+Tabasco&location=Villahermosa%2C+Tabasco"
-        target="_blank" rel="noopener noreferrer"
-        class="btn-cal fu"
-        aria-label="Agregar la boda de Fabiola y Fernando a Google Calendar"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8"  y1="2" x2="8"  y2="6"/>
-          <line x1="3"  y1="10" x2="21" y2="10"/>
-          <line x1="12" y1="14" x2="12" y2="18"/>
-          <line x1="10" y1="16" x2="14" y2="16"/>
-        </svg>
-        Agregar a Google Calendar
-      </a>
     </section>
 
     <!-- ── 5. ITINERARIO — LUXURY REDESIGN ─────────── -->
@@ -3077,15 +3328,23 @@
 
         <div class="tl-row" data-side="left">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">7:00 PM</p><p class="tl-ev">Recepción &amp; Boda Civil</p><p class="tl-de">Comenzamos la noche y nos unimos en matrimonio</p></div>
+          <div class="tl-row-inner"><p class="tl-t">7:00 PM</p><p class="tl-ev">Boda Civil</p><p class="tl-de">El momento más esperado: dos vidas se unen para siempre</p></div>
         </div>
         <div class="tl-row" data-side="right">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">8:00 PM</p><p class="tl-ev">Brindis &amp; Cena</p><p class="tl-de">Una cena preparada con todo el cariño para este día</p></div>
+          <div class="tl-row-inner"><p class="tl-t">7:30 PM</p><p class="tl-ev">Brindis</p><p class="tl-de">Levantamos las copas por nuestro nuevo comienzo</p></div>
         </div>
         <div class="tl-row" data-side="left">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">9:30 PM</p><p class="tl-ev">Vals</p><p class="tl-de">Nuestro primer baile como esposos</p></div>
+          <div class="tl-row-inner"><p class="tl-t">7:59 PM</p><p class="tl-ev">Presentación</p><p class="tl-de">Recibimos a los novios con todo el cariño</p></div>
+        </div>
+        <div class="tl-row" data-side="right">
+          <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
+          <div class="tl-row-inner"><p class="tl-t">8:00 PM</p><p class="tl-ev">Cena</p><p class="tl-de">Una cena preparada con todo el cariño para este día</p></div>
+        </div>
+        <div class="tl-row" data-side="left">
+          <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
+          <div class="tl-row-inner"><p class="tl-t">9:00 PM</p><p class="tl-ev">Vals</p><p class="tl-de">Nuestro primer baile como esposos</p></div>
         </div>
         <div class="tl-row" data-side="right">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
@@ -3131,31 +3390,88 @@
 
       <div class="dc-figures fu">
         <div class="dc-fig">
-          <svg viewBox="0 0 100 150" role="img" aria-label="Caballero, vestimenta semiformal">
-            <circle class="dc-head" cx="50" cy="23" r="15"/>
-            <path class="dc-body" d="M50 41 C39 41 31 49 29 61 L23 139 Q23 144 28 144 L72 144 Q77 144 77 139 L71 61 C69 49 61 41 50 41 Z"/>
-            <path class="dc-line" d="M40 50 L50 70 L60 50"/>
-            <path class="dc-line" d="M50 78 L50 138"/>
-            <path class="dc-detail" d="M50 56 L42 51 L42 61 Z M50 56 L58 51 L58 61 Z"/>
-            <rect class="dc-detail" x="47.5" y="53.5" width="5" height="5" rx="1"/>
+          <svg viewBox="0 0 110 200" role="img" aria-label="Caballero, traje formal">
+            <!-- Pantalón -->
+            <path d="M30 100 L24 195 L46 195 L52 130 L58 195 L80 195 L74 100 Z" fill="#2b1f2c"/>
+            <!-- Saco lados -->
+            <path d="M22 60 L18 105 L46 105 L52 60 Z M52 60 L58 105 L86 105 L82 60 Z" fill="#3d2c3f"/>
+            <!-- Camisa -->
+            <path d="M46 60 L52 60 L58 60 L52 100 Z" fill="#f8e8d8"/>
+            <!-- Corbata -->
+            <path d="M49 62 L52 100 L55 62 L52 60 Z" fill="#A02765"/>
+            <!-- Solapas -->
+            <path d="M46 60 L40 92 L48 78 Z" fill="#1f1320"/>
+            <path d="M58 60 L64 92 L56 78 Z" fill="#1f1320"/>
+            <!-- Cuello camisa -->
+            <path d="M46 60 L52 66 L58 60 L55 55 L49 55 Z" fill="#f8e8d8"/>
+            <!-- Cabeza -->
+            <circle cx="52" cy="36" r="14" fill="#d4a37a"/>
+            <!-- Pelo -->
+            <path d="M38 32 Q40 20 52 18 Q64 20 66 32 Q60 26 52 26 Q44 26 38 32 Z" fill="#241015"/>
+            <!-- Zapatos -->
+            <ellipse cx="35" cy="197" rx="11" ry="3" fill="#0c0608"/>
+            <ellipse cx="69" cy="197" rx="11" ry="3" fill="#0c0608"/>
+            <!-- Botones saco -->
+            <circle cx="52" cy="80" r="1.3" fill="#c9a360"/>
+            <circle cx="52" cy="90" r="1.3" fill="#c9a360"/>
           </svg>
           <span class="dc-fig-label">Caballeros</span>
+          <span class="dc-fig-sub">traje formal</span>
         </div>
 
         <div class="dc-sep-line" aria-hidden="true"></div>
 
         <div class="dc-fig">
-          <svg viewBox="0 0 100 150" role="img" aria-label="Dama, vestimenta semiformal">
-            <circle class="dc-head" cx="50" cy="23" r="15"/>
-            <path class="dc-body" d="M50 41 C43 41 39 46 38 55 L35 78 C29 96 22 122 20 140 Q20 144 25 144 L75 144 Q80 144 80 140 C78 122 71 96 65 78 L62 55 C61 46 57 41 50 41 Z"/>
-            <path class="dc-line" d="M42 50 Q50 58 58 50"/>
-            <path class="dc-line" d="M37 80 Q50 86 63 80"/>
+          <svg viewBox="0 0 110 200" role="img" aria-label="Dama, vestido largo formal">
+            <!-- Vestido largo (silueta A-line) -->
+            <path d="M44 62 L40 95 L25 195 L80 195 L65 95 L62 62 Z" fill="#6E1E4A"/>
+            <!-- Sombreado central -->
+            <path d="M53 62 L53 195 L55 195 L55 62 Z" fill="#4a1234" opacity=".4"/>
+            <!-- Brillo lateral -->
+            <path d="M40 95 L25 195 L33 195 L46 100 Z" fill="#8a2e5c" opacity=".55"/>
+            <!-- Escote V -->
+            <path d="M44 62 L52 78 L62 62 L58 60 L46 60 Z" fill="#3d1428"/>
+            <!-- Tirantes -->
+            <path d="M44 62 L41 50 L46 50 L48 62" fill="#6E1E4A"/>
+            <path d="M62 62 L65 50 L60 50 L58 62" fill="#6E1E4A"/>
+            <!-- Brazos -->
+            <path d="M41 62 L34 95 L37 95 L44 64 Z" fill="#d4a37a"/>
+            <path d="M65 62 L72 95 L69 95 L62 64 Z" fill="#d4a37a"/>
+            <!-- Cabeza -->
+            <circle cx="53" cy="36" r="14" fill="#d4a37a"/>
+            <!-- Pelo largo -->
+            <path d="M38 30 Q39 18 53 17 Q67 18 68 30 L70 56 Q66 50 60 50 Q64 28 53 25 Q42 28 46 50 Q40 50 36 56 Z" fill="#241015"/>
+            <!-- Aretes -->
+            <circle cx="40" cy="40" r="1.5" fill="#c9a360"/>
+            <circle cx="66" cy="40" r="1.5" fill="#c9a360"/>
+            <!-- Cintura ajustada -->
+            <path d="M44 90 L62 90 L60 96 L46 96 Z" fill="#4a1234" opacity=".6"/>
           </svg>
           <span class="dc-fig-label">Damas</span>
+          <span class="dc-fig-sub">vestido largo</span>
         </div>
       </div>
 
-      <p class="dc-avoid fu">Por favor evitar los colores blanco y rojo</p>
+      <div class="dc-avoid-block fu">
+        <p class="dc-avoid">Por favor evitar estos colores</p>
+        <div class="dc-swatches">
+          <span class="dc-swatch" style="background:#FFFFFF;border:1.5px solid rgba(46,26,29,.25);">
+            <span class="dc-swatch-lbl">Blanco</span>
+          </span>
+          <span class="dc-swatch" style="background:#D32525;">
+            <span class="dc-swatch-lbl" style="color:#fff">Rojo</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Mensaje Proverbios 3:3-4 -->
+      <div class="fam-verse fu" style="margin-top:48px">
+        <svg viewBox="0 0 32 30" fill="currentColor" aria-hidden="true">
+          <path d="M16 7 C19 1 30 1 30 10 C30 19 16 28 16 28 C16 28 2 19 2 10 C2 1 13 1 16 7 Z"/>
+        </svg>
+        <p class="fam-verse-text">Que nuestra unión sea un reflejo de Tu amor y fidelidad.</p>
+        <p class="fam-verse-cite">Proverbios 3:3-4</p>
+      </div>
     </section>
 
     <!-- ── 7. FAMILIA ──────────────────────────────── -->
@@ -3173,9 +3489,26 @@
 
 
 
-      <p class="label fu">Quienes nos rodean</p>
-      <h2 class="title fu">Familia &amp; Padrinos</h2>
-      <p class="subtitle fu">Rodeados de quienes más amamos</p>
+      <!-- Foto sentados -->
+      <figure class="fam-photo fu">
+        <img src="sentados.jpg" alt="Fabiola y Fernando" loading="lazy" />
+      </figure>
+
+      <p class="label fu" style="margin-top:36px">Quienes nos rodean</p>
+      <h2 class="title fu">Con la bendición<br/><span style="font-family:var(--script);color:var(--accent);font-size:38px;">de nuestros padres</span></h2>
+      <div class="rose-divider fu">
+        <div class="rd-line"></div>
+        <svg class="rd-rose" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <path d="M8 12 Q14 8 20 12 Q26 8 32 14" stroke-linecap="round"/>
+          <circle cx="20" cy="18" r="4"/>
+          <circle cx="20" cy="18" r="2"/>
+          <circle cx="20" cy="18" r=".8" fill="currentColor"/>
+          <path d="M20 22 L20 32" stroke-linecap="round"/>
+          <path d="M15 27 Q17 24 20 26" stroke-linecap="round"/>
+          <path d="M25 27 Q23 24 20 26" stroke-linecap="round"/>
+        </svg>
+        <div class="rd-line"></div>
+      </div>
 
       <div class="fam-group-v2 fu">
         <div class="fam-heading">
@@ -3185,11 +3518,11 @@
         <div class="fam-members-v2">
           <div class="fam-entry fu">
             <span class="fam-role-v2">papá</span>
-            <span class="fam-name-v2">Fernando Gonzalez Jardon</span>
+            <span class="fam-name-v2">Fernando González Jardon</span>
           </div>
           <div class="fam-entry fu">
             <span class="fam-role-v2">mamá</span>
-            <span class="fam-name-v2">Maria Guadalupe Perez Guerrero</span>
+            <span class="fam-name-v2">María Guadalupe Pérez Guerrero</span>
           </div>
         </div>
       </div>
@@ -3202,7 +3535,7 @@
         <div class="fam-members-v2">
           <div class="fam-entry fu">
             <span class="fam-role-v2">papá</span>
-            <span class="fam-name-v2">Alvaro Morales Valdez</span>
+            <span class="fam-name-v2">Álvaro Morales Valdez</span>
           </div>
           <div class="fam-entry fu">
             <span class="fam-role-v2">mamá</span>
@@ -3211,79 +3544,91 @@
         </div>
       </div>
 
-      <div class="fam-group-v2 fu">
-        <div class="fam-heading">
-          <span class="fam-script">Padrinos</span>
-        </div>
-        <span class="fam-eyebrow fu">de honor</span>
-        <div class="fam-members-v2">
-          <div class="fam-entry fu">
-            <span class="fam-name-v2"><em style="font-family:var(--serif);font-style:italic;color:rgba(46,26,29,.6)">Por confirmar</em></span>
-          </div>
-        </div>
+      <!-- Mensaje Salmo 127:1 -->
+      <div class="fam-verse fu">
+        <svg viewBox="0 0 32 30" fill="currentColor" aria-hidden="true">
+          <path d="M16 7 C19 1 30 1 30 10 C30 19 16 28 16 28 C16 28 2 19 2 10 C2 1 13 1 16 7 Z"/>
+        </svg>
+        <p class="fam-verse-text">Bendice nuestra familia y fortalece nuestros lazos.</p>
+        <p class="fam-verse-cite">Salmo 127:1</p>
       </div>
     </section>
 
-    <!-- ── 8. SIN NIÑOS ─────────────────────────────── -->
-    <section id="kids-policy" aria-label="Aviso: solo adultos">
-      <svg class="rose-watermark xl" style="top:28%;right:-70px;transform:rotate(14deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark lg" style="top:58%;left:-55px;transform:rotate(-20deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark md" style="top:45%;right:8%;transform:rotate(-8deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark sm" style="top:18%;right:22%;transform:rotate(18deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark sm" style="top:72%;left:18%;transform:rotate(-30deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xs" style="top:38%;left:8%;transform:rotate(24deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xs" style="top:82%;right:20%;transform:rotate(-15deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xxs" style="top:24%;left:38%;transform:rotate(12deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xxs" style="top:62%;right:32%;transform:rotate(-22deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xxs" style="top:90%;left:48%;transform:rotate(8deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
+    <!-- ── 7.5 HIJOS ───────────────────────────────── -->
+    <section id="hijos" aria-label="Nuestros hijos">
+      <svg class="rose-watermark lg" style="top:-10px;left:-55px;transform:rotate(-16deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
+      <svg class="rose-watermark md" style="bottom:6%;right:-46px;transform:rotate(20deg)" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
 
+      <figure class="fam-photo fu">
+        <img src="familia.jpg" alt="Familia Fabiola y Fernando" loading="lazy" />
+      </figure>
 
-
-      <p class="label fu">Aviso especial</p>
-      <h2 class="title fu">Una celebración <span style="font-family:var(--script);color:var(--accent);font-size:42px;">de</span> adultos</h2>
+      <p class="label fu" style="margin-top:36px">En familia</p>
+      <h2 class="title fu">Con la bendición<br/><span style="font-family:var(--script);color:var(--accent);font-size:38px;">de nuestros hermosos hijos</span></h2>
       <div class="rose-divider fu">
         <div class="rd-line"></div>
-        <svg class="rd-rose" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-          <path d="M20 12c-2.5 0-4 1.8-4 3.8 0 1.6 1.2 2.9 2.8 3.2-1.6.3-2.8 1.6-2.8 3.2 0 2 1.5 3.8 4 3.8s4-1.8 4-3.8c0-1.6-1.2-2.9-2.8-3.2 1.6-.3 2.8-1.6 2.8-3.2 0-2-1.5-3.8-4-3.8z"/>
-          <path d="M20 8c-5 2-7 5-8 9" stroke-linecap="round"/>
-          <path d="M20 8c5 2 7 5 8 9" stroke-linecap="round"/>
-          <path d="M14 29c2 1 4 1.5 6 1.5s4-.5 6-1.5" stroke-linecap="round"/>
+        <svg class="rd-rose" viewBox="0 0 40 40" fill="currentColor" aria-hidden="true">
+          <path d="M20 6 C24 2 32 2 32 10 C32 18 20 28 20 28 C20 28 8 18 8 10 C8 2 16 2 20 6 Z"/>
         </svg>
         <div class="rd-line"></div>
       </div>
-      <div class="kids-card fu">
-        <div class="kids-icon">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-            <circle cx="32" cy="22" r="6"/>
-            <path d="M20 42c0-6 5-11 12-11s12 5 12 11v4H20z"/>
-            <line x1="14" y1="14" x2="50" y2="50" stroke-width="1.6"/>
-          </svg>
-        </div>
-        <p class="kids-text">Consideramos que nuestra celebración es para adultos, te sugerimos organizarte para que disfrutes una noche libre a tu ritmo.</p>
+
+      <div class="hijos-list">
+        <div class="hijo-card fu"><span class="hijo-name">Valeria Michelle</span></div>
+        <div class="hijo-card fu"><span class="hijo-name">Sofía Monserrat</span></div>
+        <div class="hijo-card fu"><span class="hijo-name">Jair Loani</span></div>
+        <div class="hijo-card fu"><span class="hijo-name">Ángel Gabriel</span></div>
       </div>
     </section>
 
-    <!-- ── GALERÍA — RUEDA 3D ───────────────────────── -->
+    <!-- ── GALERÍA — GRID AMPLIABLE (lightbox) ──────── -->
     <section id="galeria" aria-label="Galería de fotos">
-      <p class="label fu">Nuestros recuerdos</p>
-      <h2 class="title fu">Momentos <span style="font-family:var(--script);color:var(--accent);font-size:42px;">juntos</span></h2>
+      <p class="label fu">Nuestros momentos juntos</p>
+      <h2 class="title fu">Galería <span style="font-family:var(--script);color:var(--accent);font-size:42px;">de</span> fotos</h2>
       <div class="gal-header-ornament fu"></div>
-      <div class="wheel-scene rv" id="wheel-scene">
-        <div class="wheel-ring" id="wheel-ring">
-          <div class="wheel-card"><img src="hero.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g07.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g08.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g09.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g01.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g02.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g03.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g04.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g05.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-          <div class="wheel-card"><img src="g06.jpg" alt="Fabiola y Fernando" loading="lazy" /></div>
-        </div>
+      <p class="gal-hint fu" style="margin-bottom:28px">Toca una foto para ampliarla</p>
+
+      <div class="gal-grid fu" id="gal-grid">
+        <button class="gal-cell" type="button" data-src="hero.jpg" aria-label="Ampliar foto">
+          <img src="hero.jpg" alt="Foto 1" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g07.jpg" aria-label="Ampliar foto">
+          <img src="g07.jpg" alt="Foto 2" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g08.jpg" aria-label="Ampliar foto">
+          <img src="g08.jpg" alt="Foto 3" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g09.jpg" aria-label="Ampliar foto">
+          <img src="g09.jpg" alt="Foto 4" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g01.jpg" aria-label="Ampliar foto">
+          <img src="g01.jpg" alt="Foto 5" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g02.jpg" aria-label="Ampliar foto">
+          <img src="g02.jpg" alt="Foto 6" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g03.jpg" aria-label="Ampliar foto">
+          <img src="g03.jpg" alt="Foto 7" loading="lazy" />
+        </button>
+        <button class="gal-cell" type="button" data-src="g04.jpg" aria-label="Ampliar foto">
+          <img src="g04.jpg" alt="Foto 8" loading="lazy" />
+        </button>
       </div>
-      <p class="gal-hint rv">Arrastra para girar</p>
     </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Visor de foto" hidden>
+      <button class="lb-close" id="lb-close" aria-label="Cerrar visor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+      </button>
+      <button class="lb-arrow lb-prev" id="lb-prev" aria-label="Foto anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6 L9 12 L15 18"/></svg>
+      </button>
+      <img class="lb-img" id="lb-img" alt="" />
+      <button class="lb-arrow lb-next" id="lb-next" aria-label="Foto siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6 L15 12 L9 18"/></svg>
+      </button>
+    </div>
 
     <!-- ── 9. MESA DE REGALOS ───────────────────────── -->
     <section id="gifts" aria-label="Mesa de regalos">
@@ -3366,6 +3711,15 @@
           <p class="env-tap-hint">Toca el sobre</p>
         </article>
       </div>
+
+      <!-- Mensaje Efesios 5:25 -->
+      <div class="fam-verse fu" style="margin-top:54px">
+        <svg viewBox="0 0 32 30" fill="currentColor" aria-hidden="true">
+          <path d="M16 7 C19 1 30 1 30 10 C30 19 16 28 16 28 C16 28 2 19 2 10 C2 1 13 1 16 7 Z"/>
+        </svg>
+        <p class="fam-verse-text">Ponemos nuestro matrimonio delante de Ti, Señor, porque Te necesitamos para seguir.</p>
+        <p class="fam-verse-cite">Efesios 5:25</p>
+      </div>
     </section>
 
     <!-- ── 10. ÁLBUM QR ─────────────────────────────── -->
@@ -3402,71 +3756,28 @@
       <a class="album-link fu" href="#" target="_blank" rel="noopener noreferrer"><em style="font-style:italic;opacity:.7">Link pendiente — pídelo a los novios</em></a>
     </section>
 
-    <!-- ── 9. COMPARTIR INVITACIÓN ───────────────── -->
-    <section id="rsvp" aria-label="Confirmación de asistencia">
-      <svg class="rose-watermark xl" style="top:28%;right:-70px;transform:rotate(14deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark lg" style="top:58%;left:-55px;transform:rotate(-20deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark md" style="top:45%;right:8%;transform:rotate(-8deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark sm" style="top:18%;right:22%;transform:rotate(18deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark sm" style="top:72%;left:18%;transform:rotate(-30deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xs" style="top:38%;left:8%;transform:rotate(24deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xs" style="top:82%;right:20%;transform:rotate(-15deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xxs" style="top:24%;left:38%;transform:rotate(12deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xxs" style="top:62%;right:32%;transform:rotate(-22deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
-      <svg class="rose-watermark xxs" style="top:90%;left:48%;transform:rotate(8deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
+    <!-- ── 9. EPÍLOGO BAILANDO ───────────────────────── -->
+    <section id="epilogo" aria-label="Para siempre">
+      <svg class="rose-watermark lg" style="top:-10px;left:-55px;transform:rotate(-16deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
+      <svg class="rose-watermark md" style="bottom:8%;right:-46px;transform:rotate(20deg)" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
 
+      <figure class="fam-photo fu">
+        <img src="bailando.jpg" alt="Fabiola y Fernando bailando" loading="lazy" />
+      </figure>
 
-
-      <p class="label fu">Confírmanos tu asistencia</p>
-      <h2 class="title rsvp-title fu">R<span class="rsvp-title-script">·</span>S<span class="rsvp-title-script">·</span>V<span class="rsvp-title-script">·</span>P</h2>
-      <p class="subtitle fu">Acompáñanos en este día tan especial. Confírmanos tu asistencia antes del 28 de junio de 2026.</p>
-
-      <form class="rsvp-form" id="rsvp-form" onsubmit="return false;">
-        <p id="rsvp-para-note" class="fu" style="display:none"></p>
-        <div style="display:flex;justify-content:center">
-          <div class="rsvp-va-badge fu" id="rsvp-pases-badge" style="display:none"></div>
-        </div>
-        <div class="rsvp-va-pases-picker fu" id="rsvp-pases-picker">
-          <label for="rsvp-pases-select">¿Con cuántas personas asistirás?</label>
-          <select id="rsvp-pases-select">
-            <option value="1">1 persona</option>
-            <option value="2">2 personas</option>
-            <option value="3">3 personas</option>
-            <option value="4">4 personas</option>
-            <option value="5">5 personas</option>
-            <option value="6">6 personas</option>
-          </select>
-        </div>
-        <div class="rsvp-va-toggle fu">
-          <button type="button" id="rsvpBtnYes" class="rsvp-va-toggle-btn">Asistiré</button>
-          <button type="button" id="rsvpBtnNo" class="rsvp-va-toggle-btn">No podré asistir</button>
-        </div>
-        <div class="rsvp-va-fields" id="rsvp-fields" style="display:none"></div>
-        <button
-          type="button"
-          id="btn-wa"
-          class="btn-rsvp fu"
-          aria-label="Confirmar asistencia"
-        >
-          <span class="btn-rsvp-inner">
-            <svg class="btn-rsvp-heart" viewBox="0 0 24 22" fill="currentColor" aria-hidden="true">
-              <path d="M12 6.5 C14.2 1.5 22 1.5 22 9 C22 16.5 12 22 12 22 C12 22 2 16.5 2 9 C2 1.5 9.8 1.5 12 6.5 Z"/>
-            </svg>
-            <span class="btn-rsvp-label" id="rsvp-btn-text">Confirmar asistencia</span>
-            <svg class="btn-rsvp-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </button>
-        <p id="rsvp-feedback" class="fu"></p>
-      </form>
+      <div class="epilogo-msg fu">
+        <svg viewBox="0 0 32 30" fill="currentColor" aria-hidden="true">
+          <path d="M16 7 C19 1 30 1 30 10 C30 19 16 28 16 28 C16 28 2 19 2 10 C2 1 13 1 16 7 Z"/>
+        </svg>
+        <p class="epilogo-text">No hay verdaderos finales,<br/><span>solo comienzos eternos</span></p>
+      </div>
     </section>
 
   </main>
 
   <!-- ── FOOTER ──────────────────────────────────── -->
   <footer aria-label="Pie de página">
-    <p class="ft-names">Fabiola &amp; Fernando</p>
+    <p class="ft-names">Fabiola <svg class="ft-heart" viewBox="0 0 32 30" fill="currentColor" aria-hidden="true"><path d="M16 7 C19 1 30 1 30 10 C30 19 16 28 16 28 C16 28 2 19 2 10 C2 1 13 1 16 7 Z"/></svg> Fernando</p>
     <p class="ft-date">03 · Julio · 2026 · Villahermosa, Tab.</p>
     <div class="ft-rule"></div>
     <p class="ft-tagline">Con amor · Para siempre</p>
@@ -3498,6 +3809,21 @@
   var _on      = false;
 
   bgAudio.volume = 0;
+
+  // Intentar autoplay desde la carga; los navegadores que lo bloqueen
+  // arrancarán cuando el usuario abra el sobre (gesto).
+  (function tryAutoplay() {
+    var p = bgAudio.play();
+    if (p && typeof p.then === 'function') {
+      p.then(function () {
+        fadeVolume(0.5, 2200);
+        musicBtn.classList.add('playing');
+        icoPlay.style.display = 'none';
+        icoPause.style.display = '';
+        _on = true;
+      }).catch(function () { /* bloqueado — esperar gesto */ });
+    }
+  })();
 
   function fadeVolume(target, ms) {
     var step  = (target - bgAudio.volume) / (ms / 50);
@@ -3714,7 +4040,8 @@
     );
 
     tl.to('#hero-orn-bottom', { opacity: 1, width: 80, duration: 0.6, ease: 'power2.out' }, '-=0.4')
-      .to('#hero-date',  { opacity: 1, y: 0, duration: .8, ease: 'power2.out' }, '-=0.3')
+      .to('#hero-phrase',{ opacity: 1, y: 0, duration: .9, ease: 'power2.out' }, '-=0.3')
+      .to('#hero-date',  { opacity: 1, y: 0, duration: .8, ease: 'power2.out' }, '-=0.4')
       .to('#hero-city',  { opacity: 1, y: 0, duration: .6, ease: 'power2.out' }, '-=0.5')
       .to('#hero-scroll',{ opacity: 1, duration: .5, ease: 'power2.out' }, '-=0.3');
 
@@ -3988,74 +4315,6 @@
       }
     });
 
-    /* ── GALLERY — 3D WHEEL ──────────────────────── */
-    initWheel();
-  }
-
-  /* ── GALLERY — 3D WHEEL (drag para girar) ──────── */
-  function initWheel() {
-    var ring = document.getElementById('wheel-ring');
-    if (!ring) return;
-    var cards = ring.querySelectorAll('.wheel-card');
-    var n = cards.length;
-    if (!n) return;
-    var radius = 210;
-    var rot = 0, vel = 0, isDrag = false, startX = 0, startRot = 0, lastX = 0, rafId = null;
-
-    cards.forEach(function (card, i) {
-      card.style.transform = 'rotateY(' + (360 / n * i) + 'deg) translateZ(' + radius + 'px)';
-    });
-
-    function setRot() { gsap.set(ring, { rotateY: rot }); }
-    setRot();
-
-    function inertia() {
-      if (isDrag) return;
-      rot += vel;
-      vel *= 0.94;
-      setRot();
-      if (Math.abs(vel) > 0.05) {
-        rafId = requestAnimationFrame(inertia);
-      }
-    }
-
-    function pointerDown(x) {
-      isDrag = true;
-      ring.classList.add('dragging');
-      startX = x; lastX = x; startRot = rot; vel = 0;
-      if (rafId) cancelAnimationFrame(rafId);
-    }
-    function pointerMove(x) {
-      if (!isDrag) return;
-      var dx = x - startX;
-      rot = startRot + dx * 0.45;
-      vel = (x - lastX) * 0.5;
-      lastX = x;
-      setRot();
-    }
-    function pointerUp() {
-      if (!isDrag) return;
-      isDrag = false;
-      ring.classList.remove('dragging');
-      rafId = requestAnimationFrame(inertia);
-    }
-
-    ring.addEventListener('mousedown', function (e) { e.preventDefault(); pointerDown(e.clientX); });
-    window.addEventListener('mousemove', function (e) { pointerMove(e.clientX); });
-    window.addEventListener('mouseup', pointerUp);
-
-    ring.addEventListener('touchstart', function (e) { pointerDown(e.touches[0].clientX); }, { passive: true });
-    ring.addEventListener('touchmove', function (e) { pointerMove(e.touches[0].clientX); }, { passive: true });
-    ring.addEventListener('touchend', pointerUp);
-
-    /* giro lento automático hasta el primer arrastre */
-    var auto = true;
-    (function spin() {
-      if (auto && !isDrag) { rot += 0.12; setRot(); }
-      requestAnimationFrame(spin);
-    })();
-    ring.addEventListener('mousedown', function () { auto = false; });
-    ring.addEventListener('touchstart', function () { auto = false; });
   }
 
   /* ── countdown ─────────────────────────────────── */
@@ -4090,184 +4349,53 @@
     setInterval(tick, 1000);
   }
 
-  /* ── RSVP PANEL INTEGRATION ───────────────────── */
+  /* ── Galería lightbox ─────────────────────────── */
   (function () {
-    var PANEL_API = 'https://panel-invitados.vercel.app/api/confirmar';
-    var RSVP_URL  = 'https://boda-fabiola-y-fernando.vercel.app';
-    var DEADLINE  = new Date(2026, 5, 28, 23, 59, 59, 999);
-    var frozen    = Date.now() > DEADLINE.getTime();
-    var params      = new URLSearchParams(window.location.search);
-    var urlPara     = (params.get('para')  || '').trim();
-    var hasUrlPases = params.get('pases') !== null;
-    var rawP        = parseInt(params.get('pases') || '1', 10);
-    var urlPases    = (isNaN(rawP) || rawP < 1 || rawP > 20) ? 1 : rawP;
+    var grid = document.getElementById('gal-grid');
+    if (!grid) return;
+    var cells = Array.prototype.slice.call(grid.querySelectorAll('.gal-cell'));
+    var srcs = cells.map(function (c) { return c.dataset.src; });
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lb-img');
+    var idx = 0;
 
-    var rsvpChoice = null;
-    var savedNames = [];
-    var noteEl     = document.getElementById('rsvp-para-note');
-    var badgeEl    = document.getElementById('rsvp-pases-badge');
-    var pickerWrap = document.getElementById('rsvp-pases-picker');
-    var pickerSel  = document.getElementById('rsvp-pases-select');
-    var fieldsEl   = document.getElementById('rsvp-fields');
-    var btnYes     = document.getElementById('rsvpBtnYes');
-    var btnNo      = document.getElementById('rsvpBtnNo');
-    var confirmBtn = document.getElementById('btn-wa');
-    var btnText    = document.getElementById('rsvp-btn-text');
-    var feedbackEl = document.getElementById('rsvp-feedback');
-    if (!confirmBtn || !btnYes) return;
-
-    if (urlPara) {
-      noteEl.textContent = 'Esta invitación es para ' + urlPara;
-      noteEl.style.display = 'block';
+    function open(i) {
+      idx = i;
+      lbImg.src = srcs[idx];
+      lb.hidden = false;
+      requestAnimationFrame(function () { lb.classList.add('open'); });
+      document.body.style.overflow = 'hidden';
     }
-    // Si el link trae ?pases= mostramos el badge fijo; si no, ofrecemos selector
-    if (hasUrlPases) {
-      badgeEl.textContent = urlPases === 1 ? '1 pase' : urlPases + ' pases';
-      badgeEl.style.display = 'inline-flex';
-    } else {
-      pickerSel.value = String(urlPases);
-      pickerWrap.style.display = 'flex';
-      pickerSel.addEventListener('change', function(){
-        var v = parseInt(pickerSel.value, 10);
-        urlPases = (isNaN(v) || v < 1 || v > 20) ? 1 : v;
-        if (rsvpChoice === 'yes') renderFields(urlPases);
-      });
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function () { lb.hidden = true; lbImg.src = ''; }, 300);
+    }
+    function go(d) {
+      idx = (idx + d + srcs.length) % srcs.length;
+      lbImg.src = srcs[idx];
     }
 
-    function renderFields(n) {
-      fieldsEl.innerHTML = '';
-      for (var i = 0; i < n; i++) {
-        var row = document.createElement('div');
-        var lbl = document.createElement('label');
-        lbl.className = 'rsvp-va-label';
-        lbl.textContent = n === 1 ? 'Tu nombre completo' : 'Invitado ' + (i + 1);
-        var inp = document.createElement('input');
-        inp.type = 'text';
-        inp.className = 'rsvp-va-input';
-        inp.placeholder = 'Invitado ' + (i + 1);
-        inp.autocomplete = 'off';
-        inp.maxLength = 60;
-        inp.value = savedNames[i] || '';
-        (function(idx){ inp.addEventListener('input', function(){ savedNames[idx] = this.value; }); })(i);
-        row.appendChild(lbl);
-        row.appendChild(inp);
-        fieldsEl.appendChild(row);
-      }
-    }
+    cells.forEach(function (cell, i) {
+      cell.addEventListener('click', function () { open(i); });
+    });
+    document.getElementById('lb-close').addEventListener('click', close);
+    document.getElementById('lb-prev').addEventListener('click', function (e) { e.stopPropagation(); go(-1); });
+    document.getElementById('lb-next').addEventListener('click', function (e) { e.stopPropagation(); go(1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target === lbImg) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+    });
 
-    function selectRsvp(choice) {
-      rsvpChoice = choice;
-      if (choice === 'yes') {
-        btnYes.className = 'rsvp-va-toggle-btn rsvp-va-toggle-selected-yes';
-        btnNo.className  = 'rsvp-va-toggle-btn';
-        renderFields(urlPases);
-        fieldsEl.style.display = 'flex';
-      } else {
-        btnYes.className = 'rsvp-va-toggle-btn';
-        btnNo.className  = 'rsvp-va-toggle-btn rsvp-va-toggle-selected-no';
-        // Sin ?para= necesitamos saber quién declina → mostramos 1 campo de nombre
-        if (!urlPara) {
-          renderFields(1);
-          fieldsEl.style.display = 'flex';
-        } else {
-          fieldsEl.style.display = 'none';
-          fieldsEl.innerHTML = '';
-        }
-      }
-    }
-
-    btnYes.addEventListener('click', function(){ selectRsvp('yes'); });
-    btnNo.addEventListener('click',  function(){ selectRsvp('no');  });
-
-    if (urlPara) {
-      fetch(PANEL_API + '?nombre=' + encodeURIComponent(urlPara) + '&url_boda=' + encodeURIComponent(RSVP_URL))
-        .then(function(r){ return r.json(); })
-        .then(function(resp){
-          var d = resp.invitado;
-          if (d && (d.estado === 'confirmado' || d.estado === 'declino')) {
-            if (d.nombres_confirmados && d.nombres_confirmados.length) {
-              savedNames = d.nombres_confirmados.slice();
-            }
-            selectRsvp(d.estado === 'confirmado' ? 'yes' : 'no');
-            btnText.textContent = 'Actualizar respuesta';
-            feedbackEl.textContent = d.estado === 'confirmado'
-              ? '¡Ya tienes confirmada tu asistencia! Puedes actualizar tu respuesta.'
-              : 'Ya tienes registrado que no podrás asistir. Puedes cambiar tu respuesta.';
-          }
-        })
-        .catch(function(){});
-    }
-
-    if (frozen) {
-      btnYes.disabled = true;
-      btnNo.disabled  = true;
-      confirmBtn.disabled = true;
-      btnText.textContent = 'Fecha límite alcanzada';
-      feedbackEl.textContent = 'La fecha para confirmar asistencia ha pasado.';
-    }
-
-    confirmBtn.addEventListener('click', function(){
-      if (frozen) return;
-      if (!rsvpChoice) {
-        feedbackEl.style.color = '#b03f5a';
-        feedbackEl.textContent = 'Por favor selecciona si asistirás o no.';
-        return;
-      }
-      var nombres = [];
-      var inputs = fieldsEl.querySelectorAll('.rsvp-va-input');
-      for (var i = 0; i < inputs.length; i++) {
-        var v = inputs[i].value.trim();
-        if (v) nombres.push(v);
-      }
-      if (rsvpChoice === 'yes' && nombres.length === 0) {
-        feedbackEl.style.color = '#b03f5a';
-        feedbackEl.textContent = 'Por favor escribe al menos un nombre.';
-        return;
-      }
-      // Si el link no trae ?para=, usamos el nombre que escribió la persona
-      var nombreEnvio = urlPara || nombres[0] || '';
-      if (!nombreEnvio) {
-        feedbackEl.style.color = '#b03f5a';
-        feedbackEl.textContent = 'Por favor escribe tu nombre completo.';
-        return;
-      }
-      btnText.textContent = 'Enviando…';
-      confirmBtn.disabled = true;
-      feedbackEl.textContent = '';
-      feedbackEl.style.color = '';
-      fetch(PANEL_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nombre: nombreEnvio,
-          url_boda: RSVP_URL,
-          pases: urlPases,
-          estado: rsvpChoice === 'yes' ? 'confirmado' : 'declino',
-          pases_confirmados: rsvpChoice === 'yes' ? nombres.length : 0,
-          nombres_confirmados: rsvpChoice === 'yes' ? nombres : []
-        })
-      })
-      .then(function(r){ return r.json().catch(function(){ return {}; }); })
-      .then(function(resp){
-        confirmBtn.disabled = false;
-        if (resp && resp.ok) {
-          btnText.textContent = 'Actualizar respuesta';
-          feedbackEl.style.color = '';
-          feedbackEl.textContent = rsvpChoice === 'yes'
-            ? '¡Tu asistencia ha sido confirmada! Nos vemos pronto.'
-            : 'Hemos registrado que no podrás asistir. ¡Gracias por avisarnos!';
-        } else {
-          btnText.textContent = 'Confirmar asistencia';
-          feedbackEl.style.color = '#b03f5a';
-          feedbackEl.textContent = 'No encontramos tu invitación. Abre el enlace personalizado que te enviaron o contacta a los novios.';
-        }
-      })
-      .catch(function(){
-        btnText.textContent = 'Confirmar asistencia';
-        confirmBtn.disabled = false;
-        feedbackEl.style.color = '#b03f5a';
-        feedbackEl.textContent = 'Error de conexión. Intenta de nuevo.';
-      });
+    // Swipe básico mobile
+    var touchX = 0;
+    lb.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) go(dx > 0 ? -1 : 1);
     });
   })();
 
