@@ -2558,10 +2558,21 @@
       cursor: pointer;
       outline: none;
       -webkit-tap-highlight-color: transparent;
+      perspective: 800px;
       animation: env-breathe 3.6s ease-in-out infinite;
       transform-origin: center 55%;
       will-change: transform, filter;
     }
+    /* Cuando el sobre se abre: detener el latido y resplandor pulsante
+       (igual que jennifer — sobre queda quieto mientras revela contenido) */
+    .gift-envelope.open {
+      animation: none;
+      transform: scale(1);
+      filter:
+        drop-shadow(0 6px 14px rgba(110,79,168,.22))
+        drop-shadow(0 20px 44px rgba(162,86,163,.28));
+    }
+    .gift-envelope.open .env-glow { animation: none; opacity: .55; transform: scale(1.04); }
 
     @keyframes env-breathe {
       0%, 100% {
