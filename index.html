@@ -3914,17 +3914,14 @@
       if (playPromise !== undefined) {
         playPromise.catch(function () { revealInvitation(); });
       }
-      // Fallback maestro: máximo 3s desde el tap hasta abrir la invitación.
+      // Fallback maestro INCONDICIONAL: máximo 2.8s desde el tap hasta abrir la invitación.
       // (cubre iOS limbo, video que no avanza, o videos largos)
       setTimeout(function () {
-        if (!invitationReady && !flashStarted) {
-          flashStarted = true;
-          gsap.to(envFlash, {
-            opacity: 1, duration: .6, ease: 'power2.in',
-            onComplete: revealInvitation
-          });
-        }
-      }, 3000);
+        if (invitationReady) return;
+        gsap.killTweensOf(envFlash);
+        gsap.set(envFlash, { opacity: 1 });
+        revealInvitation();
+      }, 2800);
     }
 
     // Tap en cualquier punto abre el sobre
