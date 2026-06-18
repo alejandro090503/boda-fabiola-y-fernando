@@ -3750,15 +3750,23 @@
     }
   })();
 
-  function fadeVolume(target, ms) {
-    var step  = (target - bgAudio.volume) / (ms / 50);
-    var timer = setInterval(function () {
+  var _fadeTimer = null;
+  function fadeVolume(target, ms, onDone) {
+    if (_fadeTimer) { clearInterval(_fadeTimer); _fadeTimer = null; }  // un solo fade a la vez
+    var step = (target - bgAudio.volume) / (ms / 50);
+    if (!isFinite(step) || step === 0) {
+      bgAudio.volume = target;
+      if (onDone) onDone();
+      return;
+    }
+    _fadeTimer = setInterval(function () {
       bgAudio.volume = Math.min(1, Math.max(0, +(bgAudio.volume + step).toFixed(3)));
       if ((step > 0 && bgAudio.volume >= target) ||
           (step < 0 && bgAudio.volume <= target)) {
         bgAudio.volume = target;
-        clearInterval(timer);
-        if (target === 0) bgAudio.pause();
+        clearInterval(_fadeTimer);
+        _fadeTimer = null;
+        if (onDone) onDone();
       }
     }, 50);
   }
@@ -3766,7 +3774,7 @@
   function playMusic() {
     if (_on) return Promise.resolve();
     return bgAudio.play().then(function () {
-      fadeVolume(0.55, 2000);
+      fadeVolume(0.55, 1500);
       musicBtn.classList.add('playing');
       icoPlay.style.display  = 'none';
       icoPause.style.display = '';
@@ -3777,11 +3785,14 @@
   }
   function pauseMusic() {
     if (!_on) return;
-    fadeVolume(0, 1500);
+    _on = false;
     musicBtn.classList.remove('playing');
     icoPlay.style.display  = '';
     icoPause.style.display = 'none';
-    _on = false;
+    // Cancela cualquier fade-in y baja rápido, luego PAUSA garantizado
+    fadeVolume(0, 500, function () { bgAudio.pause(); });
+    // Respaldo: si el fade no completara, pausar de todas formas
+    setTimeout(function () { if (!_on) bgAudio.pause(); }, 600);
   }
   // Expuesto para iniciar la música al abrir el sobre (gesto del usuario)
   window.__elysiumPlayMusic = playMusic;
