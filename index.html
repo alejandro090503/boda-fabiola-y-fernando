@@ -939,6 +939,7 @@
       height: 100%;
       transform-style: preserve-3d;
       cursor: grab;
+      touch-action: none;
     }
     .wheel-ring.dragging { cursor: grabbing; }
     .wheel-card {
@@ -957,6 +958,7 @@
       -webkit-user-select: none;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+      touch-action: none;
     }
     .wheel-card { cursor: pointer; }
     .wheel-card img {
@@ -3217,7 +3219,6 @@
           </div>
         </div>
 
-        <p class="cd-footnote">hasta florecer nuestro <span class="amp">&amp;</span> siempre</p>
       </div>
     </section>
 
@@ -3357,29 +3358,33 @@
 
         <div class="tl-row" data-side="left">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">7:00 PM</p><p class="tl-ev">Boda Civil</p><p class="tl-de">El momento más esperado: dos vidas se unen para siempre</p></div>
+          <div class="tl-row-inner"><p class="tl-t">6:30 PM</p><p class="tl-ev">Recepción</p><p class="tl-de">Bienvenida a nuestros invitados especiales</p></div>
         </div>
         <div class="tl-row" data-side="right">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">7:30 PM</p><p class="tl-ev">Brindis</p><p class="tl-de">Levantamos las copas por nuestro nuevo comienzo</p></div>
+          <div class="tl-row-inner"><p class="tl-t">6:45 PM</p><p class="tl-ev">Boda Civil</p><p class="tl-de">El momento más esperado: dos vidas se unen para siempre</p></div>
         </div>
         <div class="tl-row" data-side="left">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">7:59 PM</p><p class="tl-ev">Presentación</p><p class="tl-de">Recibimos a los novios con todo el cariño</p></div>
+          <div class="tl-row-inner"><p class="tl-t">7:30 PM</p><p class="tl-ev">Presentación &amp; Brindis</p><p class="tl-de">Levantamos las copas por nuestro nuevo comienzo</p></div>
         </div>
         <div class="tl-row" data-side="right">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">8:00 PM</p><p class="tl-ev">Cena</p><p class="tl-de">Una cena preparada con todo el cariño para este día</p></div>
+          <div class="tl-row-inner"><p class="tl-t">8:00 PM</p><p class="tl-ev">Vals</p><p class="tl-de">Nuestro primer baile como esposos</p></div>
         </div>
         <div class="tl-row" data-side="left">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-          <div class="tl-row-inner"><p class="tl-t">9:00 PM</p><p class="tl-ev">Vals</p><p class="tl-de">Nuestro primer baile como esposos</p></div>
+          <div class="tl-row-inner"><p class="tl-t">9:00 PM</p><p class="tl-ev">Cena</p><p class="tl-de">Una cena preparada con todo el cariño para este día</p></div>
         </div>
         <div class="tl-row" data-side="right">
+          <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
+          <div class="tl-row-inner"><p class="tl-t">9:30 PM</p><p class="tl-ev">Fotos &amp; Entrega de Sobres</p><p class="tl-de">Momentos para guardar para siempre</p></div>
+        </div>
+        <div class="tl-row" data-side="left">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
           <div class="tl-row-inner"><p class="tl-t">11:00 PM</p><p class="tl-ev">Fiesta</p><p class="tl-de">Música, baile y celebración para festejar juntos</p></div>
         </div>
-        <div class="tl-row" data-side="left">
+        <div class="tl-row" data-side="right">
           <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
           <div class="tl-row-inner"><p class="tl-t">1:00 AM</p><p class="tl-ev">Cierre</p><p class="tl-de">Gracias por celebrar con nosotros esta noche tan especial</p></div>
         </div>
@@ -4337,20 +4342,31 @@
       rafId = requestAnimationFrame(inertia);
     }
 
-    ring.addEventListener('mousedown', function (e) { e.preventDefault(); pointerDown(e.clientX, e.target); });
+    var auto = true;
+    ring.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      auto = false;
+      pointerDown(e.clientX, e.target);
+    });
     window.addEventListener('mousemove', function (e) { pointerMove(e.clientX); });
     window.addEventListener('mouseup', pointerUp);
-    ring.addEventListener('touchstart', function (e) { pointerDown(e.touches[0].clientX, e.target); }, { passive: true });
-    ring.addEventListener('touchmove', function (e) { pointerMove(e.touches[0].clientX); }, { passive: true });
+    ring.addEventListener('touchstart', function (e) {
+      auto = false;
+      pointerDown(e.touches[0].clientX, e.target);
+    }, { passive: true });
+    ring.addEventListener('touchmove', function (e) {
+      if (isDrag) {
+        e.preventDefault();
+        pointerMove(e.touches[0].clientX);
+      }
+    }, { passive: false });
     ring.addEventListener('touchend', pointerUp);
+    ring.addEventListener('touchcancel', pointerUp);
 
-    var auto = true;
     (function spin() {
       if (auto && !isDrag) { rot += 0.12; setRot(); }
       requestAnimationFrame(spin);
     })();
-    ring.addEventListener('mousedown', function () { auto = false; });
-    ring.addEventListener('touchstart', function () { auto = false; });
   })();
 
   /* ── Lightbox para galería (tap en card abre, swipe/← → para navegar) ─── */
