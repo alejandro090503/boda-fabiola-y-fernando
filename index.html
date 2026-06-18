@@ -927,11 +927,12 @@
     .wheel-scene {
       position: relative;
       width: 100%;
-      height: 520px;
+      height: 460px;
       margin: 40px auto 0;
-      perspective: 1400px;
+      perspective: 1600px;
       transform-style: preserve-3d;
       overflow: visible;
+      touch-action: pan-y;
     }
     .wheel-ring {
       position: absolute;
@@ -944,12 +945,12 @@
     .wheel-ring.dragging { cursor: grabbing; }
     .wheel-card {
       position: absolute;
-      width: 200px;
-      height: 280px;
+      width: 180px;
+      height: 240px;
       left: 50%;
       top: 50%;
-      margin-left: -100px;
-      margin-top: -140px;
+      margin-left: -90px;
+      margin-top: -120px;
       border-radius: 18px;
       overflow: hidden;
       border: 2px solid rgba(172,150,227,.30);
@@ -959,6 +960,7 @@
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
       touch-action: none;
+      cursor: pointer;
     }
     .wheel-card { cursor: pointer; }
     .wheel-card img {
@@ -1379,11 +1381,10 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      filter: blur(16px) saturate(.9);
+      filter: blur(8px) saturate(.9);
       opacity: 0;
-      transform: scale(1.12) translateZ(0);
+      transform: scale(1.08);
       will-change: opacity;
-      backface-visibility: hidden;
     }
     .bg-tint {
       position: absolute;
@@ -1932,17 +1933,9 @@
     .credit-handle:hover { color: var(--gold); }
 
     /* ══════════════════════════════════════════════════════
-       ROSE WATERMARKS — ornamentación sutil de rosas en fondo
+       ROSE WATERMARKS — DESACTIVADAS (causaban lag con 86 SVGs)
     ══════════════════════════════════════════════════════ */
-    .rose-watermark {
-      position: absolute;
-      pointer-events: none;
-      color: var(--accent);
-      opacity: .08;
-      z-index: 0;
-      will-change: transform;
-    }
-    .rose-watermark svg { width: 100%; height: 100%; display: block; }
+    .rose-watermark { display: none !important; }
 
     /* Variantes de tamaño */
     .rose-watermark.xxs { width: 26px; height: 26px; opacity: .14; }
@@ -3810,7 +3803,7 @@
   gsap.registerPlugin(ScrollTrigger);
 
   /* ══════════════════════════════════════════════════
-     ENVELOPE ANIMATION — IMAGEN + VIDEO IA
+     ENVELOPE — ROBUSTO: tap → fade rápido → invitación
   ══════════════════════════════════════════════════ */
   (function () {
     var envScreen = document.getElementById('envelope-screen');
@@ -3819,119 +3812,64 @@
     var envFlash  = document.getElementById('env-flash');
     var hint      = document.getElementById('env-hint');
     var opened    = false;
+    var revealed  = false;
 
-    // ── Paso 1: La imagen aparece con fade-in suave ──
-    gsap.timeline()
-      .to(envScreen, {
-        opacity: 1,
-        duration: 1.2,
-        ease: 'power2.out',
-        delay: 0.3
-      })
-      .to(hint, {
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power2.out'
-      }, '-=0.5');
+    // El sobre aparece visible inmediatamente
+    envScreen.style.opacity = '1';
+    hint.style.opacity = '1';
 
-    // (sin pulso infinito en la imagen del sobre — queda estática)
-
-    // ── Paso 3: flash blanco → preparar invitación detrás → disolver flash ──
-    var flashStarted  = false;
-    var invitationReady = false;
-
-    // Monta la invitación detrás del flash blanco (invisible para el usuario)
-    function prepareInvitation() {
-      if (invitationReady) return;
-      invitationReady = true;
+    function revealInvitation() {
+      if (revealed) return;
+      revealed = true;
       envScreen.style.display = 'none';
+      envFlash.style.display = 'none';
       var mainEl = document.getElementById('main-content');
       if (mainEl) mainEl.style.visibility = 'visible';
-      heroAnim();
-      spawnPetals();
-      setupPetalsVisibility();
-      setupBgCrossfade();
-      scrollAnims();
-      startCountdown();
+      try { heroAnim(); } catch (e) {}
+      try { spawnPetals(); } catch (e) {}
+      try { setupPetalsVisibility(); } catch (e) {}
+      try { setupBgCrossfade(); } catch (e) {}
+      try { scrollAnims(); } catch (e) {}
+      try { startCountdown(); } catch (e) {}
     }
 
-    // Disuelve el flash revelando la invitación suavemente
-    function revealInvitation() {
-      prepareInvitation();
-      gsap.to(envFlash, {
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power2.out',
-        onComplete: function () { envFlash.style.display = 'none'; }
-      });
-    }
-
-    // Flash blanco arranca cuando el video lleva 2s o cerca del final (lo que ocurra primero)
-    envVideo.addEventListener('timeupdate', function () {
-      if (flashStarted) return;
-      var dur = envVideo.duration || 4;
-      var trigger = Math.min(2.2, Math.max(0.8, dur - 2));
-      if (envVideo.currentTime >= trigger) {
-        flashStarted = true;
-        gsap.to(envFlash, {
-          opacity: 1,
-          duration: .8,
-          ease: 'power2.in',
-          onComplete: revealInvitation
-        });
-      }
-    });
-
-    // Seguro: si el video termina antes de que el flash complete, forzar
-    envVideo.addEventListener('ended', function () {
-      gsap.set(envFlash, { opacity: 1 });
-      revealInvitation();
-    });
-
-    // ── Paso 2: usuario toca → crossfade imagen→video simultáneo (sin negro) ──
     function openEnvelope() {
       if (opened) return;
       opened = true;
 
-      // Iniciar música automáticamente — este tap cuenta como gesto del usuario
+      // Iniciar música (gesto del usuario)
       if (window.__elysiumPlayMusic) { try { window.__elysiumPlayMusic(); } catch (e) {} }
 
-      // Detener cualquier tween de la imagen
-      gsap.killTweensOf(envImage);
-
       // Hint desaparece
-      gsap.to(hint, { opacity: 0, duration: 0.2 });
+      hint.style.transition = 'opacity .3s';
+      hint.style.opacity = '0';
 
-      // Arrancar el video inmediatamente
-      var playPromise = envVideo.play();
+      // Intentar reproducir video (decorativo)
+      try { envVideo.play().catch(function(){}); } catch (e) {}
 
-      // Crossfade simultáneo: imagen sale, video entra — nunca hay negro
-      gsap.to(envImage, {
-        opacity: 0, duration: 0.55, ease: 'power2.inOut',
-        onComplete: function () { envImage.style.display = 'none'; }
-      });
-      gsap.to(envVideo, { opacity: 1, duration: 0.55, ease: 'power2.inOut' });
+      // Crossfade imagen → video (visual del sobre abriéndose)
+      envImage.style.transition = 'opacity .5s ease';
+      envVideo.style.transition = 'opacity .5s ease';
+      envImage.style.opacity = '0';
+      envVideo.style.opacity = '1';
 
-      // Si el navegador bloquea el play (política de autoplay), ir directo a la invitación
-      if (playPromise !== undefined) {
-        playPromise.catch(function () { revealInvitation(); });
-      }
-      // Fallback maestro INCONDICIONAL: máximo 2.8s desde el tap hasta abrir la invitación.
-      // (cubre iOS limbo, video que no avanza, o videos largos)
+      // Flash blanco después de 1s → reveal a 1.6s (rápido y siempre funciona)
       setTimeout(function () {
-        if (invitationReady) return;
-        gsap.killTweensOf(envFlash);
-        gsap.set(envFlash, { opacity: 1 });
+        envFlash.style.transition = 'opacity .5s ease';
+        envFlash.style.opacity = '1';
+      }, 1000);
+      setTimeout(function () {
         revealInvitation();
-      }, 2800);
+      }, 1600);
     }
 
-    // Tap en cualquier punto abre el sobre
-    envScreen.addEventListener('click', openEnvelope);
-    envScreen.addEventListener('touchstart', function (e) {
+    // Pointer events universales: cubre touch y mouse en una sola API
+    envScreen.addEventListener('pointerdown', function (e) {
       e.preventDefault();
       openEnvelope();
-    }, { passive: false });
+    });
+    // Fallback por si pointerdown no está soportado
+    envScreen.addEventListener('click', openEnvelope);
   }());
 
   /* ── splitHeroNames — preparar letras para animación ─ */
@@ -4056,7 +3994,7 @@
     var wrap = document.getElementById('falling-petals');
     if (!wrap) return;
     var colors = ['#D9CDF2','#AC96E3','#C9B6E8','#EADFF7','#A256A3','#8A73BA'];
-    var count  = 22;
+    var count  = 8;
 
     function fall(p) {
       var startXpct  = Math.random() * 100;
@@ -4294,24 +4232,22 @@
     setInterval(tick, 1000);
   }
 
-  /* ── GALLERY — 3D WHEEL drag + tap-to-expand ──────── */
-  (function initWheel() {
+  /* ── GALLERY — 3D WHEEL drag + tap-to-expand (pointer events) ─── */
+  function initWheel() {
     var ring = document.getElementById('wheel-ring');
     if (!ring) return;
     var cards = ring.querySelectorAll('.wheel-card');
     var n = cards.length;
     if (!n) return;
-    var radius = 260;
+    var radius = 360;  // más separación entre cards
     var rot = 0, vel = 0, isDrag = false, startX = 0, startRot = 0, lastX = 0, rafId = null;
-    var totalMove = 0, downTime = 0, downTarget = null;
-    var TAP_THRESHOLD_PX = 8;
-    var TAP_THRESHOLD_MS = 350;
+    var totalMove = 0, downTarget = null, auto = true;
 
     cards.forEach(function (card, i) {
       card.style.transform = 'rotateY(' + (360 / n * i) + 'deg) translateZ(' + radius + 'px)';
     });
 
-    function setRot() { gsap.set(ring, { rotateY: rot }); }
+    function setRot() { ring.style.transform = 'rotateY(' + rot + 'deg)'; }
     setRot();
 
     function inertia() {
@@ -4323,31 +4259,33 @@
         rafId = requestAnimationFrame(inertia);
       }
     }
-    function pointerDown(x, target) {
+
+    // Pointer events: cubren touch+mouse en una sola API moderna
+    ring.addEventListener('pointerdown', function (e) {
+      auto = false;
       isDrag = true;
       ring.classList.add('dragging');
-      startX = x; lastX = x; startRot = rot; vel = 0;
-      totalMove = 0;
-      downTime = Date.now();
-      downTarget = target;
+      startX = e.clientX; lastX = e.clientX; startRot = rot;
+      vel = 0; totalMove = 0;
+      downTarget = e.target;
       if (rafId) cancelAnimationFrame(rafId);
-    }
-    function pointerMove(x) {
+      try { ring.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    ring.addEventListener('pointermove', function (e) {
       if (!isDrag) return;
-      var dx = x - startX;
+      var dx = e.clientX - startX;
       totalMove = Math.max(totalMove, Math.abs(dx));
-      rot = startRot + dx * 0.45;
-      vel = (x - lastX) * 0.5;
-      lastX = x;
+      rot = startRot + dx * 0.35;
+      vel = (e.clientX - lastX) * 0.4;
+      lastX = e.clientX;
       setRot();
-    }
-    function pointerUp() {
+    });
+    function endDrag(e) {
       if (!isDrag) return;
       isDrag = false;
       ring.classList.remove('dragging');
-      var dt = Date.now() - downTime;
-      // Si apenas hubo movimiento y fue rápido → tap
-      if (totalMove < TAP_THRESHOLD_PX && dt < TAP_THRESHOLD_MS && downTarget) {
+      // Tap: poco movimiento → abrir lightbox
+      if (totalMove < 10 && downTarget) {
         var card = downTarget.closest && downTarget.closest('.wheel-card');
         if (card && card.dataset.src && window.__openLightbox) {
           window.__openLightbox(card.dataset.src);
@@ -4356,33 +4294,23 @@
       }
       rafId = requestAnimationFrame(inertia);
     }
+    ring.addEventListener('pointerup', endDrag);
+    ring.addEventListener('pointercancel', endDrag);
+    ring.addEventListener('pointerleave', endDrag);
 
-    var auto = true;
-    ring.addEventListener('mousedown', function (e) {
-      e.preventDefault();
-      auto = false;
-      pointerDown(e.clientX, e.target);
-    });
-    window.addEventListener('mousemove', function (e) { pointerMove(e.clientX); });
-    window.addEventListener('mouseup', pointerUp);
-    ring.addEventListener('touchstart', function (e) {
-      auto = false;
-      pointerDown(e.touches[0].clientX, e.target);
-    }, { passive: true });
-    ring.addEventListener('touchmove', function (e) {
-      if (isDrag) {
-        e.preventDefault();
-        pointerMove(e.touches[0].clientX);
-      }
-    }, { passive: false });
-    ring.addEventListener('touchend', pointerUp);
-    ring.addEventListener('touchcancel', pointerUp);
-
+    // Auto-spin lento hasta primer toque
     (function spin() {
-      if (auto && !isDrag) { rot += 0.12; setRot(); }
+      if (auto && !isDrag) { rot += 0.08; setRot(); }
       requestAnimationFrame(spin);
     })();
-  })();
+  }
+
+  // Inicializar wheel inmediato (no dependía de scrollAnims)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWheel);
+  } else {
+    initWheel();
+  }
 
   /* ── Lightbox para galería (tap en card abre, swipe/← → para navegar) ─── */
   (function () {
