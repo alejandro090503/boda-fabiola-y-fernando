@@ -3864,13 +3864,16 @@
       });
     }
 
-    // Flash blanco arranca 2s antes del final del video
+    // Flash blanco arranca cuando el video lleva 2s o cerca del final (lo que ocurra primero)
     envVideo.addEventListener('timeupdate', function () {
-      if (!flashStarted && envVideo.duration && envVideo.currentTime >= envVideo.duration - 2) {
+      if (flashStarted) return;
+      var dur = envVideo.duration || 4;
+      var trigger = Math.min(2.2, Math.max(0.8, dur - 2));
+      if (envVideo.currentTime >= trigger) {
         flashStarted = true;
         gsap.to(envFlash, {
           opacity: 1,
-          duration: 1,
+          duration: .8,
           ease: 'power2.in',
           onComplete: revealInvitation
         });
@@ -3911,12 +3914,17 @@
       if (playPromise !== undefined) {
         playPromise.catch(function () { revealInvitation(); });
       }
-      // Fallback: si en 1.8s el video no avanzó (iOS limbo / metadata loading), abrir directo
+      // Fallback maestro: máximo 3s desde el tap hasta abrir la invitación.
+      // (cubre iOS limbo, video que no avanza, o videos largos)
       setTimeout(function () {
-        if (!invitationReady && (envVideo.paused || envVideo.currentTime < 0.05)) {
-          revealInvitation();
+        if (!invitationReady && !flashStarted) {
+          flashStarted = true;
+          gsap.to(envFlash, {
+            opacity: 1, duration: .6, ease: 'power2.in',
+            onComplete: revealInvitation
+          });
         }
-      }, 1800);
+      }, 3000);
     }
 
     // Tap en cualquier punto abre el sobre
