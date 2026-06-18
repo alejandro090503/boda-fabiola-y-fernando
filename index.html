@@ -2549,8 +2549,9 @@
 
     .gift-envelope {
       position: relative;
-      width: 300px;
-      height: 230px;
+      width: min(300px, 86vw);
+      aspect-ratio: 300 / 230;
+      height: auto;
       background: none;
       border: none;
       padding: 0;
@@ -2590,13 +2591,15 @@
       50%      { stroke: #A02765; stroke-width: 2.6; }
     }
 
-    /* Solapa animable encima del sobre */
+    /* Solapa animable alineada al borde superior del rect del sobre
+       rect del sobre en viewBox 300x230: x=18, y=60, w=264, h=152
+       → top 60/230=26.09%, left 18/300=6%, width 264/300=88%, height 86/230=37.4% */
     .env-flap-wrap {
       position: absolute;
-      top: 8px;
-      left: 18px;
-      width: 264px;
-      height: 110px;
+      top: 26.09%;
+      left: 6%;
+      width: 88%;
+      height: 37.4%;
       transform-origin: top center;
       transform-style: preserve-3d;
       backface-visibility: hidden;
@@ -2687,10 +2690,7 @@
     }
     .gift-envelope.open ~ .env-tap-hint { opacity: 0; pointer-events: none; }
 
-    @media (max-width: 340px) {
-      .gift-envelope { width: 268px; height: 206px; }
-      .env-flap-wrap { width: 232px; height: 98px; }
-    }
+    /* No hace falta media query: aspect-ratio + min(300px, 86vw) escala todo */
 
     /* ── REDUCED MOTION ──────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
