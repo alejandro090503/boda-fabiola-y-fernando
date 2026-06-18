@@ -927,12 +927,11 @@
     .wheel-scene {
       position: relative;
       width: 100%;
-      height: 460px;
+      height: 480px;
       margin: 40px auto 0;
-      perspective: 1600px;
+      perspective: 1400px;
       transform-style: preserve-3d;
       overflow: visible;
-      touch-action: pan-y;
     }
     .wheel-ring {
       position: absolute;
@@ -940,17 +939,17 @@
       height: 100%;
       transform-style: preserve-3d;
       cursor: grab;
-      touch-action: none;
+      touch-action: pan-y;
     }
     .wheel-ring.dragging { cursor: grabbing; }
     .wheel-card {
       position: absolute;
-      width: 180px;
-      height: 240px;
+      width: 200px;
+      height: 280px;
       left: 50%;
       top: 50%;
-      margin-left: -90px;
-      margin-top: -120px;
+      margin-left: -100px;
+      margin-top: -140px;
       border-radius: 18px;
       overflow: hidden;
       border: 2px solid rgba(172,150,227,.30);
@@ -959,10 +958,8 @@
       -webkit-user-select: none;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      touch-action: none;
       cursor: pointer;
     }
-    .wheel-card { cursor: pointer; }
     .wheel-card img {
       width: 100%;
       height: 100%;
@@ -973,6 +970,7 @@
     }
 
     /* ── LIGHTBOX ── */
+    .lightbox[hidden] { display: none !important; }
     .lightbox {
       position: fixed;
       inset: 0;
@@ -3844,23 +3842,52 @@
       hint.style.transition = 'opacity .3s';
       hint.style.opacity = '0';
 
-      // Intentar reproducir video (decorativo)
-      try { envVideo.play().catch(function(){}); } catch (e) {}
-
       // Crossfade imagen → video (visual del sobre abriéndose)
       envImage.style.transition = 'opacity .5s ease';
       envVideo.style.transition = 'opacity .5s ease';
       envImage.style.opacity = '0';
       envVideo.style.opacity = '1';
 
-      // Flash blanco después de 1s → reveal a 1.6s (rápido y siempre funciona)
-      setTimeout(function () {
-        envFlash.style.transition = 'opacity .5s ease';
+      var videoFinished = false;
+
+      function flashAndReveal() {
+        if (revealed) return;
+        envFlash.style.transition = 'opacity .8s ease';
         envFlash.style.opacity = '1';
-      }, 1000);
+        setTimeout(revealInvitation, 700);
+      }
+
+      // Cuando el video termine, flash + reveal
+      envVideo.addEventListener('ended', function () {
+        videoFinished = true;
+        flashAndReveal();
+      });
+
+      // Si el video se acerca al final (1s antes), arranca el flash
+      envVideo.addEventListener('timeupdate', function () {
+        if (videoFinished) return;
+        var dur = envVideo.duration;
+        if (dur && envVideo.currentTime >= dur - 1) {
+          videoFinished = true;
+          flashAndReveal();
+        }
+      });
+
+      // Intentar reproducir video
+      var playPromise;
+      try { playPromise = envVideo.play(); } catch (e) {}
+
+      // Si play() falla (autoplay bloqueado en el primer gesto): reveal inmediato
+      if (playPromise && playPromise.catch) {
+        playPromise.catch(function () {
+          if (!revealed) flashAndReveal();
+        });
+      }
+
+      // Fallback maestro: si en 12s no terminó (video roto o no carga), reveal de todos modos
       setTimeout(function () {
-        revealInvitation();
-      }, 1600);
+        if (!revealed) flashAndReveal();
+      }, 12000);
     }
 
     // Pointer events universales: cubre touch y mouse en una sola API
@@ -4232,14 +4259,15 @@
     setInterval(tick, 1000);
   }
 
-  /* ── GALLERY — 3D WHEEL drag + tap-to-expand (pointer events) ─── */
+  /* ── GALLERY — 3D WHEEL (drag para girar + tap para expandir) ──
+     Modelo exacto de boda-veronica-y-andres (mouse + touch separados) ── */
   function initWheel() {
     var ring = document.getElementById('wheel-ring');
     if (!ring) return;
     var cards = ring.querySelectorAll('.wheel-card');
     var n = cards.length;
     if (!n) return;
-    var radius = 360;  // más separación entre cards
+    var radius = 330;
     var rot = 0, vel = 0, isDrag = false, startX = 0, startRot = 0, lastX = 0, rafId = null;
     var totalMove = 0, downTarget = null, auto = true;
 
@@ -4260,32 +4288,29 @@
       }
     }
 
-    // Pointer events: cubren touch+mouse en una sola API moderna
-    ring.addEventListener('pointerdown', function (e) {
+    function pointerDown(x, target) {
       auto = false;
       isDrag = true;
       ring.classList.add('dragging');
-      startX = e.clientX; lastX = e.clientX; startRot = rot;
-      vel = 0; totalMove = 0;
-      downTarget = e.target;
+      startX = x; lastX = x; startRot = rot; vel = 0;
+      totalMove = 0; downTarget = target;
       if (rafId) cancelAnimationFrame(rafId);
-      try { ring.setPointerCapture(e.pointerId); } catch (_) {}
-    });
-    ring.addEventListener('pointermove', function (e) {
+    }
+    function pointerMove(x) {
       if (!isDrag) return;
-      var dx = e.clientX - startX;
+      var dx = x - startX;
       totalMove = Math.max(totalMove, Math.abs(dx));
-      rot = startRot + dx * 0.35;
-      vel = (e.clientX - lastX) * 0.4;
-      lastX = e.clientX;
+      rot = startRot + dx * 0.4;
+      vel = (x - lastX) * 0.5;
+      lastX = x;
       setRot();
-    });
-    function endDrag(e) {
+    }
+    function pointerUp() {
       if (!isDrag) return;
       isDrag = false;
       ring.classList.remove('dragging');
-      // Tap: poco movimiento → abrir lightbox
-      if (totalMove < 10 && downTarget) {
+      // Tap (movimiento mínimo) → abrir lightbox
+      if (totalMove < 12 && downTarget) {
         var card = downTarget.closest && downTarget.closest('.wheel-card');
         if (card && card.dataset.src && window.__openLightbox) {
           window.__openLightbox(card.dataset.src);
@@ -4294,18 +4319,27 @@
       }
       rafId = requestAnimationFrame(inertia);
     }
-    ring.addEventListener('pointerup', endDrag);
-    ring.addEventListener('pointercancel', endDrag);
-    ring.addEventListener('pointerleave', endDrag);
 
-    // Auto-spin lento hasta primer toque
+    // Mouse
+    ring.addEventListener('mousedown', function (e) { e.preventDefault(); pointerDown(e.clientX, e.target); });
+    window.addEventListener('mousemove', function (e) { pointerMove(e.clientX); });
+    window.addEventListener('mouseup', pointerUp);
+    // Touch
+    ring.addEventListener('touchstart', function (e) { pointerDown(e.touches[0].clientX, e.target); }, { passive: true });
+    ring.addEventListener('touchmove', function (e) {
+      if (isDrag) { e.preventDefault(); pointerMove(e.touches[0].clientX); }
+    }, { passive: false });
+    ring.addEventListener('touchend', pointerUp);
+    ring.addEventListener('touchcancel', pointerUp);
+
+    // Auto-spin lento hasta el primer arrastre
     (function spin() {
-      if (auto && !isDrag) { rot += 0.08; setRot(); }
+      if (auto && !isDrag) { rot += 0.1; setRot(); }
       requestAnimationFrame(spin);
     })();
   }
 
-  // Inicializar wheel inmediato (no dependía de scrollAnims)
+  // Inicializar al cargar
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initWheel);
   } else {
@@ -4360,13 +4394,16 @@
     });
   })();
 
-  /* ── Sobre interactivo (lluvia de sobres) ─────── */
+  /* ── Sobre interactivo (lluvia de sobres) — pointerdown ─── */
   document.querySelectorAll('.gift-envelope').forEach(function (env) {
     function toggle() {
       var open = env.classList.toggle('open');
       env.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
-    env.addEventListener('click', toggle);
+    env.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      toggle();
+    });
     env.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
