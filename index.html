@@ -2999,6 +2999,111 @@
       #envelope-screen { display: none !important; }
       #main-content { visibility: visible !important; }
     }
+
+    /* ============================================================
+       DRESS CODE · botones "Ver ideas" + carrusel con cada dibujo
+       dentro de un marco (frame). Mismo diseño que xv-renata-paola,
+       repintado a la paleta de Fabiola & Fernando.
+       ============================================================ */
+    .dc-looks{display:flex;flex-direction:column;gap:12px;max-width:380px;margin:8px auto 30px}
+    .dc-look{
+      display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;
+      cursor:pointer;border-radius:14px;text-align:left;
+      border:1px solid rgba(160,39,101,.35);
+      background:linear-gradient(120deg,#FFFFFF 0%,var(--surface) 100%);
+      box-shadow:0 10px 24px rgba(59,26,36,.12);
+      transition:transform .22s cubic-bezier(.34,1.56,.64,1),border-color .22s,box-shadow .22s;
+      -webkit-tap-highlight-color:transparent;
+      animation:dcLookBreathe 3.4s ease-in-out infinite;
+    }
+    .dc-looks .dc-look:nth-child(2){animation-delay:1.7s}
+    @keyframes dcLookBreathe{
+      0%,100%{box-shadow:0 10px 24px rgba(59,26,36,.12),0 0 0 0 rgba(160,39,101,0)}
+      50%{box-shadow:0 10px 24px rgba(59,26,36,.12),0 0 20px 2px rgba(160,39,101,.22)}
+    }
+    .dc-look:hover,.dc-look:focus-visible{transform:translateY(-3px);border-color:var(--accent);outline:none}
+    .dc-look:active{transform:translateY(-1px) scale(.985)}
+    .dc-look-ico{
+      flex:0 0 auto;width:46px;height:46px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;color:#fff;
+      background:linear-gradient(140deg,#C9568E,var(--accent) 55%,var(--gold-dark));
+      box-shadow:0 4px 12px rgba(110,30,74,.35),inset 0 1px 0 rgba(255,255,255,.35);
+    }
+    .dc-look-ico svg{width:24px;height:24px}
+    .dc-look-txt{display:flex;flex-direction:column;gap:2px;flex:1}
+    .dc-look-rol{font-family:var(--serif);font-style:italic;font-weight:600;font-size:22px;color:var(--text);line-height:1.15}
+    .dc-look-cta{font-family:var(--sans);font-weight:700;font-size:11.5px;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent)}
+    .dc-look-arrow{flex:0 0 auto;width:22px;height:22px;color:var(--accent);animation:dcArrowNudge 1.9s ease-in-out infinite}
+    .dc-look-arrow svg{width:100%;height:100%}
+    @keyframes dcArrowNudge{0%,100%{transform:translateX(0);opacity:.6}50%{transform:translateX(4px);opacity:1}}
+
+    /* Visor */
+    .dc-viewer{
+      position:fixed;inset:0;z-index:100000;
+      display:flex;align-items:center;justify-content:center;padding:16px;
+      background:rgba(59,26,36,.55);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      opacity:0;transition:opacity .28s ease;
+    }
+    .dc-viewer.on{opacity:1}
+    .dcv-box{
+      position:relative;width:min(92vw,440px);border-radius:20px;overflow:hidden;
+      background:var(--bg);border:1px solid rgba(194,153,157,.6);
+      box-shadow:0 26px 70px rgba(59,26,36,.45);padding:18px 0 16px;
+    }
+    .dcv-head{font-family:var(--serif);font-style:italic;font-weight:600;font-size:22px;
+      color:var(--gold-dark);text-align:center;margin:0 56px 14px}
+    .dcv-viewport{overflow:hidden}
+    .dcv-track{display:flex;transition:transform .42s cubic-bezier(.25,.8,.25,1);touch-action:pan-y}
+    .dcv-slide{flex:0 0 100%;margin:0;display:flex;justify-content:center;padding:0 40px}
+
+    /* — El marco — */
+    .dcv-frame{
+      position:relative;width:100%;max-width:300px;height:min(56vh,440px);
+      padding:14px;border-radius:6px;
+      background:linear-gradient(145deg,#E9CFC4 0%,#C2999D 30%,#F3DED6 52%,#B98A8F 74%,#E7C8BE 100%);
+      box-shadow:0 14px 30px rgba(59,26,36,.28),inset 0 0 0 1px rgba(255,255,255,.55),inset 0 0 0 4px rgba(110,30,74,.18);
+    }
+    .dcv-mat{
+      position:relative;height:100%;border-radius:3px;
+      display:flex;align-items:flex-end;justify-content:center;
+      padding:20px 18px 14px;
+      background:radial-gradient(ellipse 72% 58% at 50% 62%,#FFFFFF 0%,#FBF3EF 62%,#F2E1DA 100%);
+      box-shadow:inset 0 0 0 1px rgba(160,39,101,.28),inset 0 0 0 7px #FBF3EF,inset 0 0 0 8px rgba(194,153,157,.55),inset 0 3px 10px rgba(59,26,36,.16);
+    }
+    .dcv-mat img{max-height:100%;max-width:100%;object-fit:contain;display:block;
+      filter:drop-shadow(0 6px 10px rgba(59,26,36,.2))}
+    /* esquineros del marco */
+    .dcv-frame::before,.dcv-frame::after{
+      content:'';position:absolute;width:18px;height:18px;border:1.5px solid var(--gold-dark);opacity:.55;pointer-events:none;
+    }
+    .dcv-frame::before{top:6px;left:6px;border-right:none;border-bottom:none}
+    .dcv-frame::after{bottom:6px;right:6px;border-left:none;border-top:none}
+
+    .dcv-cap{margin:14px 16px 8px;text-align:center;font-family:var(--sans);font-weight:700;
+      font-size:12.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--text)}
+    .dcv-dots{display:flex;justify-content:center;gap:9px}
+    .dcv-dot{width:9px;height:9px;border-radius:50%;padding:0;cursor:pointer;
+      border:1px solid var(--accent);background:transparent;transition:transform .2s,background .2s}
+    .dcv-dot.on{background:var(--accent);transform:scale(1.25)}
+    .dcv-nav{
+      position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+      width:40px;height:40px;border-radius:50%;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;color:#fff;border:none;
+      background:linear-gradient(140deg,#C9568E,var(--accent) 55%,var(--gold-dark));
+      box-shadow:0 6px 16px rgba(59,26,36,.35);
+    }
+    .dcv-nav svg{width:20px;height:20px}
+    .dcv-prev{left:6px}.dcv-next{right:6px}
+    .dc-viewer-close{
+      position:absolute;top:10px;right:10px;z-index:4;width:40px;height:40px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;border:none;
+      background:linear-gradient(140deg,#C9568E,var(--accent) 55%,var(--gold-dark));
+      box-shadow:0 6px 16px rgba(59,26,36,.35);
+    }
+    .dc-viewer-close svg{width:18px;height:18px}
+    @media (prefers-reduced-motion:reduce){.dc-look,.dc-look-arrow{animation:none}}
+
   </style>
 </head>
 <body>
@@ -3413,19 +3518,64 @@
       </div>
       <p class="dc-note fu">Acompáñanos vestido para la ocasión</p>
 
-      <div class="dc-figures fu">
-        <div class="dc-fig">
-          <img src="caballero.png" alt="Caballero, traje formal" loading="lazy" />
-          <span class="dc-fig-label">Caballeros</span>
-          <span class="dc-fig-sub">traje formal</span>
-        </div>
+      <div class="dc-looks fu">
+        <button class="dc-look" type="button" data-look="caballeros"
+                aria-label="Ver ideas de vestimenta para caballeros">
+          <span class="dc-look-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3l4 3 4-3 3 2.2c1.2.9 1.9 2.3 1.9 3.8V21H3V9c0-1.5.7-2.9 1.9-3.8L8 3z"/>
+              <path d="M12 6v15"/><path d="M9.4 4.2L12 9l2.6-4.8"/>
+            </svg>
+          </span>
+          <span class="dc-look-txt">
+            <span class="dc-look-rol">Caballeros</span>
+            <span class="dc-look-cta">Ver ideas</span>
+          </span>
+          <span class="dc-look-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </span>
+        </button>
 
-        <div class="dc-sep-line" aria-hidden="true"></div>
+        <button class="dc-look" type="button" data-look="damas"
+                aria-label="Ver ideas de vestimenta para damas">
+          <span class="dc-look-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3h6l-1.4 5.2L21 21H3l7.4-12.8L9 3z"/><path d="M10.6 8.2h2.8"/>
+            </svg>
+          </span>
+          <span class="dc-look-txt">
+            <span class="dc-look-rol">Damas</span>
+            <span class="dc-look-cta">Ver ideas</span>
+          </span>
+          <span class="dc-look-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </span>
+        </button>
+      </div>
 
-        <div class="dc-fig">
-          <img src="dama.png" alt="Dama, vestido formal" loading="lazy" />
-          <span class="dc-fig-label">Damas</span>
-          <span class="dc-fig-sub">vestido</span>
+      <div class="dc-viewer" id="dcViewer" role="dialog" aria-modal="true"
+           aria-label="Ideas de vestimenta" hidden>
+        <div class="dcv-box">
+          <button class="dc-viewer-close" id="dcViewerClose" type="button" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+          <p class="dcv-head" id="dcvHead"></p>
+          <div class="dcv-viewport"><div class="dcv-track" id="dcvTrack"></div></div>
+          <button class="dcv-nav dcv-prev" id="dcvPrev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button class="dcv-nav dcv-next" id="dcvNext" type="button" aria-label="Siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+          <p class="dcv-cap" id="dcvCap"></p>
+          <div class="dcv-dots" id="dcvDots"></div>
         </div>
       </div>
 
@@ -4485,6 +4635,81 @@
     document.addEventListener(ev,onGesture,{capture:true,passive:true});
   });
 })();
+
+/* ============================================================
+   DRESS CODE · carrusel de ideas (cada dibujo en su marco)
+   ============================================================ */
+(function(){
+  function init(){
+    var viewer = document.getElementById('dcViewer');
+    if(!viewer) return;
+    /* fuera de la sección: si un ancestro tiene transform, el
+       position:fixed queda atrapado y el visor no aparece */
+    if(viewer.parentNode !== document.body) document.body.appendChild(viewer);
+    var track = document.getElementById('dcvTrack'), head = document.getElementById('dcvHead'),
+        cap = document.getElementById('dcvCap'), dots = document.getElementById('dcvDots'),
+        close = document.getElementById('dcViewerClose');
+    var LOOKS = {
+      caballeros:{head:'Caballeros', items:[
+        {src:'looks/cab-1.png', cap:'Chaleco y pantalón de vestir'},
+        {src:'looks/cab-2.png', cap:'Traje en tono arena'},
+        {src:'looks/cab-3.png', cap:'Traje oscuro'}]},
+      damas:{head:'Damas', items:[
+        {src:'looks/dama-1.png', cap:'Vestido largo claro'},
+        {src:'looks/dama-2.png', cap:'Vestido marino'},
+        {src:'looks/dama-3.png', cap:'Vestido champagne'}]}
+    };
+    var items = [], idx = 0, last = null;
+    function render(){
+      track.style.transform = 'translateX(' + (-idx*100) + '%)';
+      cap.textContent = items[idx].cap + '  ·  ' + (idx+1) + ' / ' + items.length;
+      [].forEach.call(dots.children, function(d,i){ d.classList.toggle('on', i===idx); });
+    }
+    function go(i){ idx = (i + items.length) % items.length; render(); }
+    function open(key){
+      var L = LOOKS[key]; if(!L) return;
+      items = L.items; idx = 0; last = document.activeElement;
+      head.textContent = L.head; track.innerHTML = ''; dots.innerHTML = '';
+      items.forEach(function(it,i){
+        var sl = document.createElement('figure'); sl.className = 'dcv-slide';
+        sl.innerHTML = '<div class="dcv-frame"><div class="dcv-mat"><img alt=""></div></div>';
+        var im = sl.querySelector('img'); im.src = it.src; im.alt = L.head + ' — ' + it.cap;
+        track.appendChild(sl);
+        var d = document.createElement('button'); d.type='button'; d.className='dcv-dot';
+        d.setAttribute('aria-label','Ver idea '+(i+1));
+        d.addEventListener('click', function(){ go(i); }); dots.appendChild(d);
+      });
+      render();
+      viewer.removeAttribute('hidden'); viewer.classList.add('on');
+      document.body.style.overflow = 'hidden'; close.focus();
+    }
+    function hide(){
+      viewer.classList.remove('on'); document.body.style.overflow = '';
+      setTimeout(function(){ viewer.setAttribute('hidden',''); }, 300);
+      if(last && last.focus) last.focus();
+    }
+    document.querySelectorAll('.dc-look').forEach(function(b){
+      b.addEventListener('click', function(e){ e.preventDefault(); open(b.dataset.look); });
+    });
+    close.addEventListener('click', hide);
+    document.getElementById('dcvPrev').addEventListener('click', function(e){ e.stopPropagation(); go(idx-1); });
+    document.getElementById('dcvNext').addEventListener('click', function(e){ e.stopPropagation(); go(idx+1); });
+    viewer.addEventListener('click', function(e){ if(e.target === viewer) hide(); });
+    document.addEventListener('keydown', function(e){
+      if(!viewer.classList.contains('on')) return;
+      if(e.key==='Escape') hide(); if(e.key==='ArrowLeft') go(idx-1); if(e.key==='ArrowRight') go(idx+1);
+    });
+    var x0 = null;
+    track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+    track.addEventListener('touchend', function(e){
+      if(x0===null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if(Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
+    }, {passive:true});
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
 </script>
 </body>
 </html>
